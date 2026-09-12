@@ -17,13 +17,15 @@
         .section-title { font-size: 2rem; color: #ffffff; border-left: 4px solid #66fcf1; padding-left: 15px; margin-bottom: 30px; }
         .games-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
         .game-card { background-color: #1f2833; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .game-card:hover { border: 1px solid #66fcf1; box-shadow: 0 0 15px rgba(102, 252, 241, 0.3); } /* Эффект при наведении, чтобы сайт не казался мёртвым */
         .game-image-box { width: 100%; height: 200px; overflow: hidden; background-color: #0b0c10; position: relative; }
         .game-image-box img { width: 100%; height: 100%; object-fit: cover; }
         .platform-badge { position: absolute; top: 10px; left: 10px; background-color: #a4c639; color: #000; padding: 4px 10px; font-size: 0.8rem; font-weight: bold; border-radius: 4px; }
         .game-info { padding: 20px; }
         .game-title { margin: 0 0 10px 0; font-size: 1.4rem; color: #ffffff; }
         .game-desc { font-size: 0.95rem; line-height: 1.5; color: #c5c6c7; margin-bottom: 20px; }
-        .download-btn { display: block; text-align: center; background-color: #66fcf1; color: #0b0c10; text-decoration: none; padding: 12px; border-radius: 4px; font-weight: bold; }
+        .download-btn { display: block; text-align: center; background-color: #66fcf1; color: #0b0c10; text-decoration: none; padding: 12px; border-radius: 4px; font-weight: bold; transition: background 0.2s; }
+        .download-btn:hover { background-color: #45f3ff; }
         footer { text-align: center; padding: 40px; margin-top: 60px; background-color: #1f2833; }
     </style>
 </head>
@@ -35,7 +37,7 @@
     </nav>
     <header>
         <h1>ELUPON</h1>
-        <p>Игры для мобильных устройств и ПК</p>
+        <p>Игры для mobile устройств и ПК</p>
     </header>
     <div class="container" id="android">
         <h2 class="section-title">Доступные игры на Android</h2>
@@ -45,8 +47,8 @@
             <div class="game-card">
                 <div class="game-image-box">
                     <span class="platform-badge">Android</span>
-                    <!-- Если загрузите свою картинку, замените ссылку в src на имя файла, например src="win10.jpg" -->
-                    <img src="https://unsplash.com" alt="Симулятор Win 10">
+                    <!-- Берёт вашу личную картинку из папки репозитория -->
+                    <img src="win10.png" alt="Симулятор Win 10">
                 </div>
                 <div class="game-info">
                     <h3 class="game-title">Симулятор Win 10</h3>
@@ -60,12 +62,13 @@
             <div class="game-card">
                 <div class="game-image-box">
                     <span class="platform-badge">Android</span>
-                    <img src="https://unsplash.com" alt="Ожидание релиза">
+                    <!-- Берёт вашу личную картинку-заглушку для новых релизов -->
+                    <img src="next.png" alt="Ожидание релиза">
                 </div>
                 <div class="game-info">
                     <h3 class="game-title">Новая игра</h3>
                     <p class="game-desc">Этот слот свободен для вашего следующего мобильного проекта или крутого APK-приложения. Раздел активно пополняется новинками.</p>
-                    <a href="#" class="download-btn">Скоро</a>
+                    <a href="#" class="download-btn" style="background-color: #334155; color: #94a3b8; pointer-events: none;">Скоро</a>
                 </div>
             </div>
 
