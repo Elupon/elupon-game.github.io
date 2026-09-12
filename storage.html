@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELUPON | Storage Explorer</title>
+    <style>
+        body { margin: 0; padding: 24px; font-family: monospace; background-color: #f8fafc; color: #0f172a; }
+        .storage-box { max-width: 800px; margin: 0 auto; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
+        .storage-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+        .storage-header img { height: 32px; width: auto; }
+        .storage-header h1 { margin: 0; font-size: 1.4rem; font-weight: 800; }
+        
+        /* Индикатор диска конторы ELUPON */
+        .disk-space { margin-bottom: 25px; background: #f1f5f9; padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0; }
+        .disk-text { display: flex; justify-content: space-between; font-size: 0.85rem; color: #475569; margin-bottom: 6px; }
+        .disk-bar { height: 8px; background: #cbd5e1; border-radius: 4px; overflow: hidden; }
+        .disk-fill { height: 100%; width: 5%; background: #2563eb; border-radius: 4px; }
+        
+        .filter-input { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 10px; box-sizing: border-box; font-family: monospace; font-size: 0.9rem; margin-bottom: 20px; }
+        
+        /* Строгая таблица файлов */
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
+        th { padding: 10px; color: #64748b; border-bottom: 2px solid #e2e8f0; font-weight: 700; }
+        td { padding: 12px 10px; border-bottom: 1px solid #f1f5f9; }
+        tr:hover td { background-color: #f8fafc; }
+        .item-link { text-decoration: none; color: #1d4ed8; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        .item-link:hover { color: #1e40af; text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="storage-box">
+        <div class="storage-header">
+            <img src="ul.png" alt="Logo">
+            <h1>ELUPON / Storage Explorer / Root</h1>
+        </div>
+        
+        <div class="disk-space">
+            <div class="disk-text"><span>Локальный узел (ELUPON_DRIVE)</span><span>Занято: 8.5 МБ из 256 МБ</span></div>
+            <div class="disk-bar"><div class="disk-fill"></div></div>
+        </div>
+        
+        <input type="text" id="filter" class="filter-input" placeholder="Введите имя файла для фильтрации..." oninput="filterFiles()">
+        
+        <table id="files-table">
+            <thead>
+                <tr>
+                    <th>Имя компонента</th>
+                    <th>Тип</th>
+                    <th>Размер</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Папки каталога -->
+                <tr><td><a class="item-link" href="#">📁 apps/</a></td><td style="color: #64748b;">Папка</td><td>--</td></tr>
+                <tr><td><a class="item-link" href="#">📁 source/</a></td><td style="color: #64748b;">Папка</td><td>--</td></tr>
+                <tr><td><a class="item-link" href="#">📁 linux_docs/</a></td><td style="color: #64748b;">Папка</td><td>--</td></tr>
+                <!-- Точный вес вашего APK прописан здесь -->
+                <tr><td><a class="item-link" href="Windows10.apk" download>📄 Windows10.apk</a></td><td style="color: #475569;">Приложение Android</td><td>7.22 МБ</td></tr>
+                <tr><td><a class="item-link" href="index.html">📄 index.html</a></td><td style="color: #475569;">Документ HTML</td><td>6.4 КБ</td></tr>
+                <tr><td><a class="item-link" href="en.html">📄 en.html</a></td><td style="color: #475569;">Документ HTML</td><td>6.5 КБ</td></tr>
+                <tr><td><a class="item-link" href="#">📄 CHANGELOG.txt</a></td><td style="color: #475569;">Текстовый файл</td><td>1.2 КБ</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function filterFiles() {
+            const query = document.getElementById('filter').value.toLowerCase();
+            const rows = document.querySelectorAll('#files-table tbody tr');
+            rows.forEach(row => {
+                const name = row.querySelector('.item-link').innerText.toLowerCase();
+                row.style.display = name.includes(query) ? '' : 'none';
+            });
+        }
+    </script>
+</body>
+</html>
