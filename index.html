@@ -5,272 +5,96 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ELUPON | Игровая платформа</title>
     <style>
-        body { 
-            margin: 0; 
-            padding: 0; 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-            background-color: #f8fafc; 
-            color: #0f172a; 
-        }
-        
-        /* Верхняя панель бренда */
-        nav { 
-            background-color: #ffffff; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 14px 24px; 
-            border-bottom: 1px solid #e2e8f0;
-        }
-        
-        /* Жёсткие рамки для логотипа, чтобы его больше не разносило */
-        .brand-logo {
-            display: flex;
-            align-items: center;
-            max-width: 150px; 
-            max-height: 40px; 
-            overflow: hidden;
-        }
-        .brand-logo img {
-            width: 100%;
-            height: auto;
-            max-height: 40px;
-            object-fit: contain; 
-            display: block;
-        }
-        
-        .lang-switch { 
-            display: flex; 
-            gap: 8px; 
-        }
-        .lang-btn { 
-            padding: 6px 14px; 
-            font-size: 0.8rem; 
-            font-weight: 700; 
-            border-radius: 8px; 
-            text-decoration: none;
-            border: 1px solid #e2e8f0;
-        }
-        .lang-btn.active { 
-            background-color: #0f172a; 
-            color: #ffffff; 
-            border-color: #0f172a;
-        }
-        .lang-btn.inactive { 
-            color: #64748b; 
-            background-color: #ffffff;
-        }
-
-        /* Минималистичная плоская шапка */
-        header { 
-            text-align: left; 
-            padding: 60px 24px; 
-            background-color: #ffffff;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        .header-content {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        header h1 { 
-            margin: 0; 
-            font-size: 2.8rem; 
-            color: #0f172a; 
-            font-weight: 800; 
-            letter-spacing: -0.5px;
-        }
-        header p { 
-            margin: 12px 0 0 0; 
-            color: #475569; 
-            font-size: 1.1rem; 
-            line-height: 1.6;
-            max-width: 700px;
-        }
-
-        .container { 
-            max-width: 940px; 
-            margin: 40px auto; 
-            padding: 0 20px; 
-            box-sizing: border-box;
-        }
-
-        /* Горизонтальные стильные вкладки платформ */
-        .platform-tabs {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 35px;
-        }
-        .tab-link {
-            text-decoration: none;
-            padding: 10px 18px;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.2s;
-        }
-        .tab-link.active {
-            background-color: #eff6ff;
-            color: #1d4ed8;
-            border: 1px solid #bfdbfe;
-        }
-        .tab-link.disabled {
-            background-color: #f1f5f9;
-            color: #94a3b8;
-            cursor: not-allowed;
-            border: 1px solid #e2e8f0;
-        }
-
-        /* Список карточек */
-        .games-grid { 
-            display: flex; 
-            flex-direction: column; 
-            gap: 30px; 
-        }
-
-        /* Уникальная горизонтальная split-карточка */
-        .game-card { 
-            background-color: #ffffff; 
-            border-radius: 16px; 
-            overflow: hidden; 
-            border: 1px solid #e2e8f0;
-            display: flex;
-            flex-direction: row; 
-            min-height: 200px;
-        }
-        
-        @media (max-width: 600px) {
-            .game-card {
-                flex-direction: column;
-            }
-            .game-image-box {
-                width: 100% !important;
-                height: 180px !important;
-            }
-        }
-
-        .game-image-box { 
-            width: 35%; 
-            background-color: #f1f5f9; 
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-        .game-image-box img { 
-            width: 100%; 
-            height: 100%;
-            object-fit: cover; 
-            display: block;
-        }
-        .game-info { 
-            padding: 28px; 
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            flex-grow: 1;
-        }
-        .game-title { 
-            margin: 0 0 10px 0; 
-            font-size: 1.4rem; 
-            color: #0f172a; 
-            font-weight: 700;
-        }
-        .game-desc { 
-            font-size: 0.95rem; 
-            line-height: 1.6; 
-            color: #475569; 
-            margin-bottom: 20px; 
-            margin-top: 0;
-        }
-
-        .download-btn { 
-            align-self: flex-start;
-            display: inline-block; 
-            background-color: #1d4ed8;
-            color: #ffffff; 
-            text-decoration: none; 
-            font-weight: 600; 
-            font-size: 0.9rem;
-            padding: 10px 20px;
-            border-radius: 8px;
-            transition: background 0.2s;
-        }
-        .download-btn:hover { 
-            background-color: #1e40af;
-        }
-
-        footer { 
-            text-align: center; 
-            padding: 40px 20px; 
-            margin-top: 80px; 
-            font-size: 0.85rem; 
-            color: #64748b; 
-            border-top: 1px solid #e2e8f0;
-            background-color: #ffffff;
-        }
+        body { margin: 0; padding: 0; font-family: sans-serif; background-color: #f8fafc; color: #0f172a; }
+        nav { background-color: #ffffff; display: flex; justify-content: space-between; align-items: center; padding: 14px 24px; border-bottom: 1px solid #e2e8f0; }
+        .brand-logo { display: flex; align-items: center; max-width: 150px; max-height: 40px; overflow: hidden; }
+        .brand-logo img { width: 100%; height: auto; max-height: 40px; object-fit: contain; display: block; }
+        .lang-switch { display: flex; gap: 8px; }
+        .lang-btn { padding: 6px 14px; font-size: 0.8rem; font-weight: 700; border-radius: 8px; text-decoration: none; border: 1px solid #e2e8f0; }
+        .lang-btn.active { background-color: #0f172a; color: #ffffff; border-color: #0f172a; }
+        .lang-btn.inactive { color: #64748b; background-color: #ffffff; }
+        header { text-align: left; padding: 60px 24px; background-color: #ffffff; border-bottom: 1px solid #e2e8f0; }
+        .header-content { max-width: 900px; margin: 0 auto; }
+        header h1 { margin: 0; font-size: 2.8rem; color: #0f172a; font-weight: 800; letter-spacing: -0.5px; }
+        header p { margin: 12px 0 0 0; color: #475569; font-size: 1.1rem; line-height: 1.6; max-width: 750px; }
+        .container { max-width: 940px; margin: 40px auto; padding: 0 20px; box-sizing: border-box; }
+        .platform-tabs { display: flex; gap: 12px; margin-bottom: 35px; overflow-x: auto; }
+        .tab-link { text-decoration: none; padding: 10px 18px; border-radius: 10px; font-weight: 600; font-size: 0.9rem; transition: all 0.2s; white-space: nowrap; }
+        .tab-link.active { background-color: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+        .tab-link.disabled { background-color: #f1f5f9; color: #94a3b8; cursor: not-allowed; border: 1px solid #e2e8f0; }
+        .games-grid { display: flex; flex-direction: column; gap: 30px; }
+        .game-card { background-color: #ffffff; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; display: flex; flex-direction: row; min-height: 200px; }
+        @media (max-width: 600px) { .game-card { flex-direction: column; } .game-image-box { width: 100% !important; height: 180px !important; } }
+        .game-image-box { width: 35%; background-color: #f1f5f9; overflow: hidden; flex-shrink: 0; }
+        .game-image-box img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .game-info { padding: 28px; display: flex; flex-direction: column; justify-content: center; flex-grow: 1; }
+        .game-title { margin: 0 0 10px 0; font-size: 1.4rem; color: #0f172a; font-weight: 700; }
+        .game-desc { font-size: 0.95rem; line-height: 1.6; color: #475569; margin-bottom: 15px; margin-top: 0; }
+        .specs { font-size: 0.85rem; color: #64748b; margin-bottom: 20px; background-color: #f8fafc; padding: 10px 14px; border-radius: 8px; border: 1px dashed #e2e8f0; }
+        .download-btn { align-self: flex-start; display: inline-block; background-color: #1d4ed8; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 0.9rem; padding: 10px 20px; border-radius: 8px; transition: background 0.2s; }
+        .download-btn:hover { background-color: #1e40af; }
+        .info-block { background-color: #ffffff; border-radius: 16px; border: 1px solid #e2e8f0; padding: 28px; margin-top: 40px; }
+        .info-block h3 { margin: 0 0 15px 0; font-size: 1.3rem; color: #0f172a; }
+        .info-block ol { margin: 0; padding-left: 20px; color: #475569; font-size: 0.95rem; line-height: 1.6; }
+        footer { text-align: center; padding: 40px 20px; margin-top: 80px; font-size: 0.85rem; color: #64748b; border-top: 1px solid #e2e8f0; background-color: #ffffff; }
     </style>
 </head>
 <body>
     <nav>
-        <div class="brand-logo">
-            <img src="ul.png" alt="ELUPON Логотип">
-        </div>
-        <div class="lang-switch">
-            <a href="#" class="lang-btn active">RU</a>
-            <a href="#" class="lang-btn inactive">EN</a>
-        </div>
+        <div class="brand-logo"><img src="ul.png" alt="ELUPON Логотип"></div>
+        <div class="lang-switch"><a href="#" class="lang-btn active">RU</a><a href="#" class="lang-btn inactive">EN</a></div>
     </nav>
-    
     <header>
         <div class="header-content">
-            <h1>Добро пожаловать на сайт ELUPON!</h1>
-            <p>Официальный сайт игровой платформы. Игры для мобильных устройств и ПК. Здесь вы найдёте информацию о наших проектах и сможете скачать актуальные версии приложений.</p>
+            <h1>ELUPON</h1>
+            <p>Официальный независимый цифровой архив. Наша цель — создание и дистрибуция уникальных интерактивных проектов, утилитарных программ и симуляторов для мобильных устройств на базе Android, а также адаптация классических игровых механик для современных смартфонов и персональных компьютеров.</p>
         </div>
     </header>
-
-    <div class="container">
-        
+    <div class="container" id="android">
         <div class="platform-tabs">
             <a href="#android" class="tab-link active">🤖 Игры на Android</a>
             <a href="#" class="tab-link disabled">🌐 HTML (Скоро 🔒)</a>
             <a href="#" class="tab-link disabled">⚡ Flash (Скоро 🔒)</a>
         </div>
-
+        <h2 style="font-size: 1.5rem; color: #0f172a; margin-bottom: 25px; font-weight: 700;">Доступные игры на Android</h2>
         <div class="games-grid">
-            
-            <!-- Карточка 1: Симулятор Windows 10 -->
             <div class="game-card">
-                <div class="game-image-box">
-                    <img src="win10.jpg" alt="Симулятор Win 10">
-                </div>
+                <div class="game-image-box"><img src="win10.jpg" alt="Симулятор Win 10"></div>
                 <div class="game-info">
                     <h3 class="game-title">Симулятор Win 10</h3>
-                    <p class="game-desc">Полноценный simулятор операционной системы Windows 10 для вашего Android-смартфона. Исследуйте знакомый интерфейс, запускайте встроенные программы и игры прямо на мобильном экране.</p>
+                    <p class="game-desc">Полноценная техническая песочница и симулятор операционной системы Windows 10, оптимизированный под управление на Android-смартфонах. Проект позволяет изучать логику и структуру интерфейса настольной ОС, взаимодействовать со знакомыми элементами управления и запускать базовые встроенные приложения прямо на мобильном дисплее.</p>
+                    <div class="specs"><strong>Технические данные:</strong> Формат: .APK | Версия Android: 5.0+ | Разработчик: ELUPON</div>
                     <a href="Windows10.apk" download class="download-btn">Скачать APK</a>
                 </div>
             </div>
-
-            <!-- Карточка 2: YouTube (Ссылка починена) -->
             <div class="game-card">
-                <div class="game-info" style="border-left: 4px solid #d97706;">
-                    <h3 class="game-title" style="color: #d97706;">📱 YouTube-канал</h3>
-                    <p class="game-desc">Последние видео, Shorts и стримы с нашего официального канала. Подписывайтесь, чтобы следить за разработкой новых проектов конторы ELUPON.</p>
+                <div class="game-info" style="border-left: 4px solid #d97706; padding-left: 24px;">
+                    <h3 class="game-title" style="color: #d97706;">📱 Официальный YouTube-канал</h3>
+                    <p class="game-desc">Здесь публикуются подробные разборы обновлений, демонстрация игрового процесса разрабатываемых проектов, технические тесты софта и операционных систем. Подписывайтесь на сообщество MagazinWindows, чтобы первыми узнавать о выходе новых билдов и патчей.</p>
                     <a href="https://youtube.com" class="download-btn" style="background-color: #d97706;">Перейти к каналу</a>
                 </div>
             </div>
-
-            <!-- Карточка 3: Слот под новую игру -->
             <div class="game-card">
                 <div class="game-info" style="background-color: #f8fafc;">
-                    <h3 class="game-title" style="color: #94a3b8;">Новая игра</h3>
-                    <p class="game-desc">Этот слот свободен для вашего следующего мобильного проекта или крутого APK-приложения. Раздел активно пополняется новинками.</p>
-                    <a href="#" class="download-btn" style="background-color: #cbd5e1; color: #64748b; pointer-events: none;">В разработке</a>
+                    <h3 class="game-title" style="color: #94a3b8;">Новая игра (В разработке)</h3>
+                    <p class="game-desc">Данный сектор зарезервирован под следующий инди-проект от конторы ELUPON. В данный момент ведётся проектирование архитектуры приложения и проработка программной логики. Страница обновится автоматически по мере готовности стабильного билда.</p>
+                    <a href="#" class="download-btn" style="background-color: #cbd5e1; color: #64748b; pointer-events: none;">Ожидание релиза</a>
                 </div>
             </div>
-
+        </div>
+        <div class="info-block">
+            <h3>🛠 Руководство по установке приложений (.APK)</h3>
+            <ol>
+                <li>Загрузите установочный файл нужной игры, нажав на кнопку «Скачать APK».</li>
+                <li>Откройте загруженный файл на вашем Android-смартфоне через любой проводник.</li>
+                <li>Если система заблокирует запуск, перейдите в появившиеся настройки и разрешите пункт «Установка из неизвестных источников» для вашего браузера или проводника.</li>
+                <li>Вернитесь к файлу, нажмите «Установить» и дождитесь завершения процедуры. Все сборки архива ELUPON являются чистыми и полностью безопасными.</li>
+            </ol>
         </div>
     </div>
-
     <footer>
-        <p>&copy; 2022 - 2026 ELUPON. Бесплатный игровой архив от MagazinWindows a.k.a Установщик Linux. Все права защищены.</p>
+        <p>&copy; 2026 ELUPON. Бесплатный игровой архив от MagazinWindows a.k.a Установщик Linux. Все права защищены.</p>
     </footer>
 </body>
 </html>
+
