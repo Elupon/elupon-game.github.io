@@ -205,43 +205,167 @@
             text-decoration: none;
             padding: 10px 20px;
             border-radius: 12px;
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELUPON | Игровая платформа</title>
+    <style>
+        body { 
+            margin: 0; 
+            padding: 0; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            background-color: #f8fafc; /* Чистый и мягкий светлый фон */
+            color: #0f172a; 
+        }
+        
+        /* Верхняя панель бренда */
+        nav { 
+            background-color: #ffffff; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 14px 24px; 
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .brand-logo {
+            display: flex;
+            align-items: center;
+        }
+        .brand-logo img {
+            height: 38px; /* Четкий размер вашего логотипа */
+            width: auto;
+            display: block;
+        }
+        .lang-switch { 
+            display: flex; 
+            gap: 8px; 
+        }
+        .lang-btn { 
+            padding: 6px 14px; 
+            font-size: 0.8rem; 
+            font-weight: 700; 
+            border-radius: 8px; 
+            text-decoration: none;
+            border: 1px solid #e2e8f0;
+        }
+        .lang-btn.active { 
+            background-color: #0f172a; 
+            color: #ffffff; 
+            border-color: #0f172a;
+        }
+        .lang-btn.inactive { 
+            color: #64748b; 
+            background-color: #ffffff;
+        }
+
+        /* Минималистичная плоская шапка */
+        header { 
+            text-align: left; 
+            padding: 60px 24px; 
+            background-color: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .header-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        header h1 { 
+            margin: 0; 
+            font-size: 2.8rem; 
+            color: #0f172a; 
+            font-weight: 800; 
+            letter-spacing: -0.5px;
+        }
+        header p { 
+            margin: 12px 0 0 0; 
+            color: #475569; 
+            font-size: 1.1rem; 
+            line-height: 1.6;
+            max-width: 700px;
+        }
+
+        .container { 
+            max-width: 940px; 
+            margin: 40px auto; 
+            padding: 0 20px; 
+            box-sizing: border-box;
+        }
+
+        /* Горизонтальные стильные вкладки платформ */
+        .platform-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 35px;
+        }
+        .tab-link {
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: 10px;
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             transition: all 0.2s;
         }
         .tab-link.active {
-            background-color: #2563eb;
-            color: #ffffff;
+            background-color: #eff6ff;
+            color: #1d4ed8;
+            border: 1px solid #bfdbfe;
         }
         .tab-link.disabled {
-            background-color: #e2e8f0;
+            background-color: #f1f5f9;
             color: #94a3b8;
             cursor: not-allowed;
+            border: 1px solid #e2e8f0;
         }
 
+        /* Список карточек в виде брутальной игровой ленты */
         .games-grid { 
             display: flex; 
             flex-direction: column; 
-            gap: 25px; 
+            gap: 30px; 
         }
 
+        /* Уникальная горизонтальная split-карточка: изображение слева, инфо справа */
         .game-card { 
             background-color: #ffffff; 
-            border-radius: 24px; 
-            overflow: hidden; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.03); 
-            border: 1px solid #e2e8f0;
-            padding: 24px;
-        }
-        .game-image-box { 
-            width: 100%; 
             border-radius: 16px; 
             overflow: hidden; 
-            margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: row; /* Выстраиваем элементы в ряд */
+            min-height: 200px;
+        }
+        
+        /* Мобильная адаптивность для split-карточек */
+        @media (max-width: 600px) {
+            .game-card {
+                flex-direction: column;
+            }
+            .game-image-box {
+                width: 100% !important;
+                height: 180px !important;
+            }
+        }
+
+        .game-image-box { 
+            width: 35%; /* Картинка занимает ровно треть ширины */
+            background-color: #f1f5f9; 
+            overflow: hidden;
+            flex-shrink: 0;
         }
         .game-image-box img { 
             width: 100%; 
-            display: block; 
+            height: 100%;
+            object-fit: cover; 
+            display: block;
+        }
+        .game-info { 
+            padding: 28px; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex-grow: 1;
         }
         .game-title { 
             margin: 0 0 10px 0; 
@@ -254,23 +378,30 @@
             line-height: 1.6; 
             color: #475569; 
             margin-bottom: 20px; 
+            margin-top: 0;
         }
 
+        /* Солидная кнопка-ссылка игровых студий */
         .download-btn { 
+            align-self: flex-start;
             display: inline-block; 
-            color: #2563eb; 
+            background-color: #1d4ed8;
+            color: #ffffff; 
             text-decoration: none; 
             font-weight: 600; 
-            font-size: 0.95rem;
+            font-size: 0.9rem;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: background 0.2s;
         }
-        .download-btn::after { 
-            content: ' →'; 
+        .download-btn:hover { 
+            background-color: #1e40af;
         }
 
         footer { 
             text-align: center; 
-            padding: 30px 20px; 
-            margin-top: 60px; 
+            padding: 40px 20px; 
+            margin-top: 80px; 
             font-size: 0.85rem; 
             color: #64748b; 
             border-top: 1px solid #e2e8f0;
@@ -280,10 +411,9 @@
 </head>
 <body>
     <nav>
-        <div class="menu-burger">
-            <div></div>
-            <div></div>
-            <div></div>
+        <!-- Левая панель с вашим личным логотипом -->
+        <div class="brand-logo">
+            <img src="ul.png" alt="ELUPON Логотип">
         </div>
         <div class="lang-switch">
             <a href="#" class="lang-btn active">RU</a>
@@ -292,13 +422,14 @@
     </nav>
     
     <header>
-        <h1>Добро пожаловать на сайт ELUPON!</h1>
-        <p>Официальный сайт игровой платформы. Игры для мобильных устройств и ПК. Здесь вы найдёте информацию о наших проектах и сможете скачать актуальные версии приложений.</p>
+        <div class="header-content">
+            <h1>Добро пожаловать на сайт ELUPON!</h1>
+            <p>Официальный сайт игровой платформы. Игры для мобильных устройств и ПК. Здесь вы найдёте информацию о наших проектах и сможете скачать актуальные версии приложений.</p>
+        </div>
     </header>
 
     <div class="container">
         
-        <!-- ВЕРНУЛ ВКЛАДКИ ИЗ ВАШЕГО КОДА -->
         <div class="platform-tabs">
             <a href="#android" class="tab-link active">🤖 Игры на Android</a>
             <a href="#" class="tab-link disabled">🌐 HTML (Скоро 🔒)</a>
@@ -307,28 +438,34 @@
 
         <div class="games-grid">
             
-            <!-- Карточка 1: Симулятор Windows 10 -->
+            <!-- Карточка 1: Симулятор Windows 10 (С картинкой слева) -->
             <div class="game-card">
                 <div class="game-image-box">
                     <img src="win10.jpg" alt="Симулятор Win 10">
                 </div>
-                <h3 class="game-title">Симулятор Win 10</h3>
-                <p class="game-desc">Полноценный симулятор операционной системы Windows 10 для вашего Android-смартфона. Исследуйте знакомый интерфейс, запускайте встроенные программы и игры прямо на мобильном экране.</p>
-                <a href="Windows10.apk" download class="download-btn">Перейти к скачиванию APK</a>
+                <div class="game-info">
+                    <h3 class="game-title">Симулятор Win 10</h3>
+                    <p class="game-desc">Полноценный симулятор операционной системы Windows 10 для вашего Android-смартфона. Исследуйте знакомый интерфейс, запускайте встроенные программы и игры прямо на мобильном экране.</p>
+                    <a href="Windows10.apk" download class="download-btn">Скачать APK</a>
+                </div>
             </div>
 
             <!-- Карточка 2: YouTube -->
             <div class="game-card">
-                <h3 class="game-title" style="color: #d97706;">📱 YouTube</h3>
-                <p class="game-desc">Последние видео, Shorts и стримы с нашего официального канала. Подписывайтесь, чтобы следить за разработкой новых проектов конторы ELUPON.</p>
-                <a href="https://youtube.com" class="download-btn" style="color: #d97706;">Перейти</a>
+                <div class="game-info" style="border-left: 4px solid #d97706;">
+                    <h3 class="game-title" style="color: #d97706;">📱 YouTube-канал</h3>
+                    <p class="game-desc">Последние видео, Shorts и стримы с нашего официального канала. Подписывайтесь, чтобы следить за разработкой новых проектов конторы ELUPON.</p>
+                    <a href="https://youtube.com" class="download-btn" style="background-color: #d97706;">Перейти к каналу</a>
+                </div>
             </div>
 
             <!-- Карточка 3: Слот под новую игру -->
             <div class="game-card">
-                <h3 class="game-title">Новая игра</h3>
-                <p class="game-desc">Этот слот свободен для вашего следующего мобильного проекта или крутого APK-приложения. Раздел активно пополняется новинками.</p>
-                <a href="#" class="download-btn" style="color: #94a3b8; pointer-events: none;">Скоро</a>
+                <div class="game-info" style="background-color: #f8fafc;">
+                    <h3 class="game-title" style="color: #94a3b8;">Новая игра</h3>
+                    <p class="game-desc">Этот слот свободен для вашего следующего мобильного проекта или крутого APK-приложения. Раздел активно пополняется новинками.</p>
+                    <a href="#" class="download-btn" style="background-color: #cbd5e1; color: #64748b; pointer-events: none;">В разработке</a>
+                </div>
             </div>
 
         </div>
