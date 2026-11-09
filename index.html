@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#070b14">
+<title>ELUPON | Игровая платформа</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Unbounded:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#070b14; --text:#eef2ff; --soft:rgba(226,232,255,.74); --mute:rgba(226,232,255,.5);
+  --line:rgba(255,255,255,.16); --amber:#fbbf6a;
+  --display:"Unbounded","Onest",system-ui,sans-serif;
+  --body:"Onest",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--ink);scroll-behavior:smooth}
+body{margin:0;font-family:var(--body);color:var(--text);line-height:1.6;overflow-x:hidden;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+a{color:inherit}
+:focus-visible{outline:2px solid #fff;outline-offset:3px}
+
+/* ---------- Фон: цветовые поля + чёткие формы, чтобы стекло было что преломлять ---------- */
+.bg{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;
+  background:
+   radial-gradient(60% 50% at 12% 8%,#2347d9 0,transparent 70%),
+   radial-gradient(50% 45% at 92% 28%,#6d3ff0 0,transparent 70%),
+   radial-gradient(55% 50% at 68% 98%,#0e8fa8 0,transparent 70%),
+   radial-gradient(40% 35% at 4% 82%,rgba(190,98,20,.55) 0,transparent 70%),var(--ink)}
+.bg::before{content:"";position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px);
+  background-size:56px 56px;-webkit-mask-image:radial-gradient(80% 70% at 50% 40%,#000,transparent);mask-image:radial-gradient(80% 70% at 50% 40%,#000,transparent)}
+.bg i{position:absolute;display:block}
+.bg .r1{width:520px;height:520px;border-radius:50%;border:2px solid rgba(255,255,255,.28);top:6%;right:-140px;animation:drift 38s ease-in-out infinite alternate}
+.bg .r2{width:300px;height:300px;border-radius:50%;border:14px solid rgba(255,255,255,.14);bottom:8%;left:-80px;animation:drift 46s ease-in-out infinite alternate-reverse}
+.bg .bar{width:620px;height:46px;border-radius:30px;top:46%;left:-120px;transform:rotate(-14deg);
+  background:linear-gradient(90deg,#38bdf8,#818cf8,#f0abfc);opacity:.85;animation:drift 52s ease-in-out infinite alternate}
+.bg .bar2{width:380px;height:26px;border-radius:30px;top:72%;right:-60px;transform:rotate(9deg);background:linear-gradient(90deg,#fbbf6a,#fb7185);opacity:.7}
+@keyframes drift{to{transform:translate(-70px,90px) rotate(6deg)}}
+
+/* ---------- Liquid glass: преломление через SVG-фильтр + кромка + блик ---------- */
+.glass{position:relative;border-radius:28px;
+  background:linear-gradient(145deg,rgba(255,255,255,.14),rgba(255,255,255,.03) 60%);
+  -webkit-backdrop-filter:blur(14px) saturate(160%);backdrop-filter:blur(14px) saturate(160%);
+  box-shadow:inset 1px 1px 0 rgba(255,255,255,.45),inset -1px -1px 0 rgba(255,255,255,.1),
+    inset 0 0 28px rgba(255,255,255,.06),0 24px 60px rgba(2,6,23,.38)}
+.glass::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;
+  background:linear-gradient(140deg,rgba(255,255,255,.8),rgba(255,255,255,.06) 32%,rgba(255,255,255,.03) 62%,rgba(255,255,255,.5));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+.refract .glass{-webkit-backdrop-filter:url(#lg) blur(2.5px) saturate(175%) brightness(1.08);backdrop-filter:url(#lg) blur(2.5px) saturate(175%) brightness(1.08)}
+
+/* ---------- Навигация ---------- */
+nav{position:sticky;top:max(14px,env(safe-area-inset-top,0px));z-index:30;display:flex;justify-content:space-between;align-items:center;
+  max-width:1040px;width:calc(100% - 28px);margin:14px auto 0;padding:8px 10px 8px 12px;border-radius:999px}
+.logo{display:flex;align-items:center;background:rgba(255,255,255,.88);border-radius:999px;padding:5px 14px}
+.logo img{display:block;height:26px;width:auto;max-width:130px;object-fit:contain}
+.lang{display:flex;gap:4px;padding:3px;border-radius:999px;background:rgba(2,6,23,.28)}
+.lang a{text-decoration:none;font-size:.82rem;font-weight:600;padding:7px 16px;border-radius:999px;color:var(--soft);transition:background .25s,color .25s}
+.lang a.on{background:rgba(255,255,255,.92);color:#0a1020}
+.lang a:not(.on):hover{color:#fff}
+
+/* ---------- Hero ---------- */
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+.hero{position:relative;padding:72px 0 56px}
+.hero h1{margin:0;font-family:var(--display);font-weight:600;font-size:clamp(3rem,14.5vw,9.4rem);line-height:.95;letter-spacing:-.045em;
+  text-shadow:0 8px 50px rgba(20,30,90,.45)}
+.hero p{margin:28px 0 0;max-width:58ch;color:var(--soft);font-size:1.08rem}
+.hero .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.lens{position:absolute;left:0;top:0;width:clamp(120px,24vw,210px);aspect-ratio:1;border-radius:50%;z-index:3;cursor:grab;touch-action:none;
+  background:radial-gradient(circle at 32% 26%,rgba(255,255,255,.55),rgba(255,255,255,0) 38%),linear-gradient(160deg,rgba(255,255,255,.1),rgba(255,255,255,0));
+  -webkit-backdrop-filter:blur(1.5px) saturate(190%) brightness(1.12);backdrop-filter:blur(1.5px) saturate(190%) brightness(1.12);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.5),inset 0 -14px 30px rgba(255,255,255,.14),inset 0 10px 24px rgba(255,255,255,.2),0 26px 60px rgba(2,6,23,.45);
+  will-change:transform}
+.refract .lens{-webkit-backdrop-filter:url(#lensf) blur(1px) saturate(190%) brightness(1.12);backdrop-filter:url(#lensf) blur(1px) saturate(190%) brightness(1.12)}
+.lens:active{cursor:grabbing}
+
+/* ---------- Кнопки ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 24px;border-radius:999px;border:0;
+  font:600 .95rem var(--body);text-decoration:none;cursor:pointer;transition:transform .25s,background .25s,box-shadow .25s}
+.btn.solid{background:#f4f6ff;color:#0a1020;box-shadow:0 10px 30px rgba(2,6,23,.35),inset 0 -2px 0 rgba(10,16,32,.08)}
+.btn.solid:hover{transform:translateY(-2px);background:#fff}
+.btn.tint{color:#fff;background:linear-gradient(135deg,rgba(124,92,255,.75),rgba(37,99,235,.75));box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 12px 30px rgba(60,60,220,.4)}
+.btn.tint:hover{transform:translateY(-2px)}
+.btn.ghost{color:#fff;background:rgba(255,255,255,.1);box-shadow:inset 0 0 0 1px rgba(255,255,255,.28)}
+.btn.ghost:hover{background:rgba(255,255,255,.2)}
+
+/* ---------- Табы ---------- */
+.tabs{display:inline-flex;max-width:100%;overflow-x:auto;gap:4px;padding:5px;border-radius:999px;scrollbar-width:none;margin-bottom:40px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{white-space:nowrap;text-decoration:none;font-size:.9rem;font-weight:600;padding:10px 18px;border-radius:999px;color:var(--soft);transition:background .25s}
+.tabs a.on{background:rgba(255,255,255,.92);color:#0a1020}
+.tabs a[aria-disabled=true]{color:var(--mute);cursor:not-allowed}
+.tabs a:not(.on):not([aria-disabled=true]):hover{background:rgba(255,255,255,.14);color:#fff}
+
+h2{font-family:var(--display);font-weight:500;font-size:clamp(1.5rem,4.5vw,2.1rem);letter-spacing:-.02em;line-height:1.15;margin:0 0 24px}
+
+/* ---------- Игра ---------- */
+.game{display:grid;grid-template-columns:5fr 7fr;gap:8px;padding:10px}
+.game .pic{border-radius:20px;overflow:hidden;min-height:240px;background:rgba(2,6,23,.3)}
+.game .pic img{width:100%;height:100%;object-fit:cover;display:block}
+.game .info{padding:26px 24px 24px;display:flex;flex-direction:column;align-items:flex-start}
+h3{margin:0 0 10px;font-size:1.35rem;font-weight:700;letter-spacing:-.01em}
+.info p,.link p{margin:0 0 18px;color:var(--soft);font-size:.96rem}
+dl{display:grid;grid-template-columns:auto 1fr;gap:6px 18px;margin:0 0 24px;font-size:.88rem}
+dt{color:var(--mute)} dd{margin:0;font-weight:500}
+
+.links{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+.link{display:flex;flex-direction:column;align-items:flex-start;padding:26px 26px 24px;text-decoration:none;transition:transform .3s}
+.link:hover{transform:translateY(-3px)}
+.link p{flex:1}
+.link .go{font-weight:600;font-size:.92rem;border-bottom:1px solid var(--line);padding-bottom:2px}
+.soon{margin-top:18px;border:1px dashed rgba(255,255,255,.26);border-radius:24px;padding:22px 26px;color:var(--mute)}
+.soon h3{color:var(--soft);font-size:1.1rem;margin-bottom:6px}
+.soon p{margin:0;font-size:.92rem}
+
+/* ---------- VUNOS ---------- */
+.vunos{margin-top:96px;padding:clamp(26px,5vw,52px);border-radius:36px;display:grid;grid-template-columns:1fr minmax(200px,300px);gap:36px;align-items:center;overflow:hidden}
+.vunos h2{font-size:clamp(2rem,6vw,3.2rem);margin-bottom:16px}
+.vunos p{color:var(--soft);margin:0 0 20px;max-width:56ch}
+.note{border-left:3px solid var(--amber);background:rgba(2,6,23,.3);border-radius:4px 16px 16px 4px;padding:14px 18px;color:var(--text)!important;font-size:.93rem}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 28px;padding:0;list-style:none}
+.tags li{font-size:.82rem;font-weight:500;padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.1);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
+.vunos .row{display:flex;flex-wrap:wrap;gap:12px}
+.orb{position:relative;aspect-ratio:1;width:100%;max-width:300px;justify-self:center;display:grid;place-items:center}
+.orb::before{content:"";position:absolute;inset:6%;border-radius:50%;background:conic-gradient(from 210deg,#38bdf8,#818cf8,#e879f9,#fbbf6a,#38bdf8);filter:blur(1px);animation:spin 40s linear infinite}
+.orb::after{content:"";position:absolute;inset:22%;border-radius:50%;border:10px solid rgba(255,255,255,.55)}
+.orb b{position:relative;z-index:1;width:70%;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;
+  font-family:var(--display);font-weight:600;font-size:clamp(1rem,3.4vw,1.35rem);letter-spacing:.06em;
+  background:radial-gradient(circle at 30% 24%,rgba(255,255,255,.6),rgba(255,255,255,0) 40%),rgba(255,255,255,.05);
+  -webkit-backdrop-filter:blur(2px) saturate(190%) brightness(1.1);backdrop-filter:blur(2px) saturate(190%) brightness(1.1);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.55),inset 0 -12px 28px rgba(255,255,255,.16),0 20px 50px rgba(30,20,120,.5)}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---------- Инструкция ---------- */
+.guide{margin-top:56px;padding:clamp(26px,4vw,40px)}
+.guide ol{list-style:none;counter-reset:s;margin:0;padding:0;display:grid;gap:14px;max-width:72ch}
+.guide li{counter-increment:s;display:grid;grid-template-columns:34px 1fr;gap:14px;color:var(--soft);font-size:.96rem}
+.guide li::before{content:counter(s);width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:.88rem;color:#fff;
+  background:rgba(255,255,255,.14);box-shadow:inset 0 0 0 1px rgba(255,255,255,.3)}
+
+footer{max-width:1040px;margin:96px auto 0;padding:28px 20px 40px;color:var(--mute);font-size:.88rem;border-top:1px solid var(--line)}
+footer p{margin:0}
+
+@media (max-width:760px){
+  .game,.vunos{grid-template-columns:1fr}
+  .game .pic{min-height:200px}
+  .links{grid-template-columns:1fr}
+  .orb{max-width:220px;order:-1}
+  .hero{padding-top:48px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="lg" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.006 0.01" numOctaves="2" seed="7" result="n"/>
+    <feGaussianBlur in="n" stdDeviation="3" result="nb"/>
+    <feDisplacementMap in="SourceGraphic" in2="nb" scale="46" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <filter id="lensf" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">
+    <feTurbulence type="fractalNoise" baseFrequency="0.011" numOctaves="1" seed="3" result="n"/>
+    <feGaussianBlur in="n" stdDeviation="2" result="nb"/>
+    <feDisplacementMap in="SourceGraphic" in2="nb" scale="110" xChannelSelector="R" yChannelSelector="B"/>
+  </filter>
+</svg>
+
+<div class="bg" aria-hidden="true"><i class="r1"></i><i class="r2"></i><i class="bar"></i><i class="bar2"></i></div>
+
+<nav class="glass">
+  <div class="logo"><img src="ul.png" alt="ELUPON"></div>
+  <div class="lang">
+    <a href="index.html" class="on" aria-current="page">RU</a>
+    <a href="en.html">EN</a>
+  </div>
+</nav>
+
+<main class="wrap" id="android">
+
+  <section class="hero" id="hero">
+    <h1>ELUPON</h1>
+    <p>Независимый цифровой архив. Мы делаем интерактивные проекты, утилиты и симуляторы для Android, а также переносим классические игровые механики на современные смартфоны и ПК.</p>
+    <div class="cta">
+      <a href="Windows10.apk" download class="btn solid">Скачать Win 10 для Android</a>
+      <a href="#vunos" class="btn ghost">Операционная система VUNOS</a>
+    </div>
+    <div class="lens" id="lens" aria-hidden="true"></div>
+  </section>
+
+  <div class="tabs glass" role="navigation" aria-label="Платформы">
+    <a href="#android" class="on">Игры на Android</a>
+    <a href="#" aria-disabled="true" tabindex="-1">HTML — скоро</a>
+    <a href="#" aria-disabled="true" tabindex="-1">Flash — скоро</a>
+    <a href="storage.html">Проводник хранилища</a>
+  </div>
+
+  <h2>Доступные игры на Android</h2>
+
+  <article class="game glass">
+    <div class="pic"><img src="win10.jpg" alt="Симулятор Win 10"></div>
+    <div class="info">
+      <h3>Симулятор Win 10</h3>
+      <p>Техническая песочница и симулятор Windows 10, адаптированный под управление на смартфоне. Позволяет изучить логику и структуру интерфейса настольной ОС, поработать со знакомыми элементами и запустить базовые встроенные приложения прямо на экране телефона.</p>
+      <dl>
+        <dt>Формат</dt><dd>.APK</dd>
+        <dt>Android</dt><dd>5.0 и новее</dd>
+        <dt>Разработчик</dt><dd>ELUPON</dd>
+      </dl>
+      <a href="Windows10.apk" download class="btn solid">Скачать APK</a>
+    </div>
+  </article>
+
+  <div class="links">
+    <a class="link glass" href="https://t.me/ustanovshiklinux2" target="_blank" rel="noopener">
+      <h3>Telegram-канал</h3>
+      <p>Анонсы, технические заметки, скриншоты новых утилит с ранних стадий разработки и прямая связь с автором проекта — Установщик Linux.</p>
+      <span class="go">Присоединиться</span>
+    </a>
+    <a class="link glass" href="https://youtube.com/@magazinwindows?si=q2L4pRMQs2-UmhbJ" target="_blank" rel="noopener">
+      <h3>YouTube-канал</h3>
+      <p>Разборы обновлений, геймплей проектов в разработке и тесты софта и операционных систем. Подписывайтесь на MagazinWindows, чтобы не пропустить новые сборки и патчи.</p>
+      <span class="go">Перейти к каналу</span>
+    </a>
+  </div>
+
+  <div class="soon">
+    <h3>Новая игра — в разработке</h3>
+    <p>Это место занято под следующий инди-проект ELUPON. Сейчас команда проектирует архитектуру и логику приложения. Как только стабильная сборка будет готова, она появится здесь.</p>
+  </div>
+
+  <section class="vunos glass" id="vunos">
+    <div>
+      <h2>ELUPON VUNOS</h2>
+      <p>Собственная операционная система проекта: лёгкая, быстрая и минималистичная, на базе <strong>Debian 8</strong>. В комплекте — базовый софт для повседневной работы. Для энтузиастов, разработчиков и всех, кто хочет попробовать экспериментальную среду.</p>
+      <p class="note"><strong>Важно:</strong> система работает только в режиме <strong>Live CD / Live USB</strong>, без установки на жёсткий диск. В скачанном <strong>.zip</strong> лежит образ <strong>.iso</strong>. Записывайте его на флешку только через <strong>Rufus</strong>.</p>
+      <ul class="tags">
+        <li>Debian 8</li>
+        <li>Live CD / Live USB</li>
+        <li>.zip с образом .iso</li>
+        <li>Разработчик: ELUPON</li>
+      </ul>
+      <div class="row">
+        <a href="https://github.com/Elupon/elupon-game.github.io/releases/download/release/ELUPON.VUNOS.1.0.zip" class="btn tint" target="_blank" rel="noopener">Скачать VUNOS (.zip)</a>
+        <a href="https://t.me/ustanovshiklinux2" class="btn ghost" target="_blank" rel="noopener">Новости о VUNOS</a>
+      </div>
+    </div>
+    <div class="orb" aria-hidden="true"><b>VUNOS</b></div>
+  </section>
+
+  <section class="guide glass">
+    <h2 style="font-size:clamp(1.3rem,3.6vw,1.7rem)">Как установить APK</h2>
+    <ol>
+      <li>Нажмите «Скачать APK» и дождитесь загрузки файла.</li>
+      <li>Откройте файл на смартфоне через любой проводник.</li>
+      <li>Если система заблокирует запуск, в открывшихся настройках разрешите «Установку из неизвестных источников» для вашего браузера или проводника.</li>
+      <li>Вернитесь к файлу, нажмите «Установить» и дождитесь завершения. Все сборки ELUPON проверены и безопасны.</li>
+    </ol>
+  </section>
+
+</main>
+
+<footer>
+  <p>&copy; 2022–2026 ELUPON. Бесплатный игровой архив от MagazinWindows a.k.a. Установщик Linux. Все права защищены.</p>
+</footer>
+
+<script>
+(function(){
+  var ua = navigator.userAgent;
+  // Преломление через SVG в backdrop-filter поддерживает только Chromium; в остальных браузерах остаётся мягкое стекло.
+  if (/Chrome|Chromium|Edg\/|SamsungBrowser/.test(ua) && !/CriOS|EdgiOS|FxiOS|Firefox/.test(ua)) {
+    document.documentElement.classList.add('refract');
+  }
+
+  var hero = document.getElementById('hero'), lens = document.getElementById('lens');
+  var still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var x = 0, y = 0, touched = false, drag = false, ox = 0, oy = 0;
+
+  function size(){ return lens.offsetWidth; }
+  function place(nx, ny){
+    var w = hero.clientWidth - size(), h = hero.clientHeight - size();
+    x = Math.max(0, Math.min(w, nx)); y = Math.max(0, Math.min(h, ny));
+    lens.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+  }
+
+  // Стартовая позиция: поверх слова ELUPON. Пока человек не тронул линзу, она медленно дрейфует.
+  var t0 = performance.now();
+  function idle(t){
+    if (touched) return;
+    var h1 = hero.querySelector('h1'), base = h1.offsetLeft + h1.offsetWidth * 0.55;
+    var k = (t - t0) / 1000;
+    place(base + Math.sin(k * 0.5) * h1.offsetWidth * 0.3 - size() / 2, h1.offsetTop + h1.offsetHeight / 2 - size() / 2 + Math.cos(k * 0.7) * 14);
+    if (!still) requestAnimationFrame(idle);
+  }
+  requestAnimationFrame(idle);
+
+  lens.addEventListener('pointerdown', function(e){
+    touched = drag = true; lens.setPointerCapture(e.pointerId);
+    ox = e.clientX - x - hero.getBoundingClientRect().left; oy = e.clientY - y - hero.getBoundingClientRect().top;
+  });
+  lens.addEventListener('pointermove', function(e){
+    if (!drag) return;
+    var r = hero.getBoundingClientRect(); place(e.clientX - r.left - ox, e.clientY - r.top - oy);
+  });
+  lens.addEventListener('pointerup', function(){ drag = false; });
+  hero.addEventListener('pointermove', function(e){
+    if (e.pointerType !== 'mouse' || drag) return;
+    touched = true; var r = hero.getBoundingClientRect();
+    place(e.clientX - r.left - size() / 2, e.clientY - r.top - size() / 2);
+  });
+  addEventListener('resize', function(){ place(x, y); });
+})();
+</script>
+</body>
+</html>
