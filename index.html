@@ -1,110 +1,471 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ELUPON | Игровая платформа</title>
-    <style>
-        body { margin: 0; padding: 0; font-family: sans-serif; background-color: #f8fafc; color: #0f172a; }
-        nav { background-color: #ffffff; display: flex; justify-content: space-between; align-items: center; padding: 14px 24px; border-bottom: 1px solid #e2e8f0; }
-        .brand-logo { display: flex; align-items: center; max-width: 150px; max-height: 40px; overflow: hidden; }
-        .brand-logo img { width: 100%; height: auto; max-height: 40px; object-fit: contain; display: block; }
-        .lang-switch { display: flex; gap: 8px; }
-        .lang-btn { padding: 6px 14px; font-size: 0.8rem; font-weight: 700; border-radius: 8px; text-decoration: none; border: 1px solid #e2e8f0; }
-        .lang-btn.active { background-color: #0f172a; color: #ffffff; border-color: #0f172a; }
-        .lang-btn.inactive { color: #64748b; background-color: #ffffff; }
-        header { text-align: left; padding: 60px 24px; background-color: #ffffff; border-bottom: 1px solid #e2e8f0; }
-        .header-content { max-width: 900px; margin: 0 auto; }
-        header h1 { margin: 0; font-size: 2.8rem; color: #0f172a; font-weight: 800; letter-spacing: -0.5px; }
-        header p { margin: 12px 0 0 0; color: #475569; font-size: 1.1rem; line-height: 1.6; max-width: 750px; }
-        .container { max-width: 940px; margin: 40px auto; padding: 0 20px; box-sizing: border-box; }
-        .platform-tabs { display: flex; gap: 12px; margin-bottom: 35px; overflow-x: auto; }
-        .tab-link { text-decoration: none; padding: 10px 18px; border-radius: 10px; font-weight: 600; font-size: 0.9rem; transition: all 0.2s; white-space: nowrap; border: 1px solid transparent; }
-        .tab-link.active { background-color: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
-        .tab-link.disabled { background-color: #f1f5f9; color: #94a3b8; cursor: not-allowed; border: 1px solid #e2e8f0; }
-        .tab-link.storage-link { background-color: #f8fafc; color: #0f172a; border: 1px solid #cbd5e1; }
-        .tab-link.storage-link:hover { background-color: #e2e8f0; }
-        .games-grid { display: flex; flex-direction: column; gap: 30px; }
-        .game-card { background-color: #ffffff; border-radius: 16px; overflow: hidden; border: 1px solid #e2e8f0; display: flex; flex-direction: row; min-height: 200px; }
-        @media (max-width: 600px) { .game-card { flex-direction: column; } .game-image-box { width: 100% !important; height: 180px !important; } }
-        .game-image-box { width: 35%; background-color: #f1f5f9; overflow: hidden; flex-shrink: 0; }
-        .game-image-box img { width: 100%; height: 100%; object-fit: cover; display: block; }
-        .game-info { padding: 28px; display: flex; flex-direction: column; justify-content: center; flex-grow: 1; }
-        .game-title { margin: 0 0 10px 0; font-size: 1.4rem; color: #0f172a; font-weight: 700; }
-        .game-desc { font-size: 0.95rem; line-height: 1.6; color: #475569; margin-bottom: 15px; margin-top: 0; }
-        .specs { font-size: 0.85rem; color: #64748b; margin-bottom: 20px; background-color: #f8fafc; padding: 10px 14px; border-radius: 8px; border: 1px dashed #e2e8f0; }
-        .download-btn { align-self: flex-start; display: inline-block; background-color: #1d4ed8; color: #ffffff; text-decoration: none; font-weight: 600; font-size: 0.9rem; padding: 10px 20px; border-radius: 8px; transition: background 0.2s; }
-        .download-btn:hover { background-color: #1e40af; }
-        .info-block { background-color: #ffffff; border-radius: 16px; border: 1px solid #e2e8f0; padding: 28px; margin-top: 40px; }
-        .info-block h3 { margin: 0 0 15px 0; font-size: 1.3rem; color: #0f172a; }
-        .info-block ol { margin: 0; padding-left: 20px; color: #475569; font-size: 0.95rem; line-height: 1.6; }
-        footer { text-align: center; padding: 40px 20px; margin-top: 80px; font-size: 0.85rem; color: #64748b; border-top: 1px solid #e2e8f0; background-color: #ffffff; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ELUPON | Игровая платформа</title>
+<style>
+  :root{
+    --glass-bg: rgba(255,255,255,0.12);
+    --glass-border: rgba(255,255,255,0.25);
+    --glass-highlight: rgba(255,255,255,0.55);
+    --text-main: #0f172a;
+    --text-soft: #475569;
+    --text-mute: #64748b;
+    --accent: #2563eb;
+    --accent-hover: #1d4ed8;
+    --radius: 22px;
+  }
+
+  *{ box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html, body{ margin:0; padding:0; min-height:100%; }
+
+  body{
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "SF Pro Display", "Inter", Roboto, sans-serif;
+    color: var(--text-main);
+    background:
+      radial-gradient(1200px 800px at 10% -10%, #dbeafe 0%, transparent 55%),
+      radial-gradient(1000px 700px at 110% 10%, #ede9fe 0%, transparent 55%),
+      radial-gradient(900px 900px at 50% 120%, #cffafe 0%, transparent 55%),
+      linear-gradient(160deg, #f8fafc 0%, #eef2ff 100%);
+    background-attachment: fixed;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Плавающие "жидкие" капли на фоне */
+  .liquid-bg{ position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+  .blob{
+    position: absolute; border-radius: 50%; filter: blur(80px); opacity: .55;
+    animation: float 18s ease-in-out infinite;
+  }
+  .blob.b1{ width: 520px; height: 520px; background: linear-gradient(135deg,#60a5fa,#a78bfa); top:-140px; left:-120px; }
+  .blob.b2{ width: 460px; height: 460px; background: linear-gradient(135deg,#22d3ee,#3b82f6); top: 30%; right:-160px; animation-delay:-6s; }
+  .blob.b3{ width: 540px; height: 540px; background: linear-gradient(135deg,#f472b6,#a78bfa); bottom:-180px; left: 20%; animation-delay:-11s; }
+  .blob.b4{ width: 380px; height: 380px; background: linear-gradient(135deg,#34d399,#22d3ee); top: 60%; left:-100px; animation-delay:-3s; }
+
+  @keyframes float{
+    0%,100%{ transform: translate(0,0) scale(1); }
+    33%{ transform: translate(40px,-30px) scale(1.08); }
+    66%{ transform: translate(-30px,30px) scale(.95); }
+  }
+
+  /* Общий стеклянный класс */
+  .glass{
+    background: linear-gradient(135deg, rgba(255,255,255,0.28), rgba(255,255,255,0.08));
+    backdrop-filter: blur(22px) saturate(180%);
+    -webkit-backdrop-filter: blur(22px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    box-shadow:
+      0 8px 32px rgba(15,23,42,0.10),
+      inset 0 1px 0 rgba(255,255,255,0.65),
+      inset 0 -1px 0 rgba(255,255,255,0.15);
+    position: relative;
+  }
+  /* Блик сверху (liquid highlight) */
+  .glass::before{
+    content:""; position:absolute; inset:0; border-radius: inherit; pointer-events:none;
+    background: linear-gradient(180deg, rgba(255,255,255,0.45), rgba(255,255,255,0) 42%);
+    opacity:.7;
+  }
+
+  /* Навигация */
+  nav{
+    position: sticky; top: 12px; z-index: 50;
+    display:flex; justify-content: space-between; align-items:center;
+    margin: 14px auto 0; padding: 12px 22px;
+    max-width: 940px; width: calc(100% - 40px);
+    border-radius: 18px;
+  }
+  .brand-logo{ display:flex; align-items:center; max-width:150px; max-height:40px; overflow:hidden; }
+  .brand-logo img{ width:100%; height:auto; max-height:40px; object-fit:contain; display:block; }
+
+  .lang-switch{ display:flex; gap:8px; }
+  .lang-btn{
+    padding:7px 16px; font-size:.8rem; font-weight:700; border-radius:10px;
+    text-decoration:none; transition: all .25s ease; position:relative;
+  }
+  .lang-btn.active{
+    background: linear-gradient(135deg,#0f172a,#1e293b); color:#fff;
+    box-shadow: 0 6px 18px rgba(15,23,42,.28), inset 0 1px 0 rgba(255,255,255,.2);
+  }
+  .lang-btn.inactive{
+    background: rgba(255,255,255,.45); color:#475569;
+    border:1px solid rgba(255,255,255,.6);
+    backdrop-filter: blur(10px);
+  }
+  .lang-btn.inactive:hover{ background: rgba(255,255,255,.75); }
+
+  /* Header / Hero */
+  header{
+    max-width: 940px; margin: 28px auto 0; padding: 56px 44px;
+    border-radius: 28px; width: calc(100% - 40px);
+    overflow: hidden;
+  }
+  .header-content{ max-width: 820px; position: relative; z-index:1; }
+  header h1{
+    margin:0; font-size: 3rem; font-weight: 800; letter-spacing:-1px;
+    background: linear-gradient(135deg,#0f172a 0%, #1e40af 60%, #7c3aed 100%);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  header p{
+    margin: 16px 0 0; color: var(--text-soft); font-size: 1.05rem;
+    line-height: 1.7; max-width: 780px;
+  }
+
+  .container{ max-width: 940px; margin: 32px auto; padding: 0 20px; box-sizing:border-box; }
+
+  /* Табы */
+  .platform-tabs{ display:flex; gap:10px; margin-bottom: 32px; overflow-x:auto; padding-bottom: 6px; scrollbar-width:none; }
+  .platform-tabs::-webkit-scrollbar{ display:none; }
+  .tab-link{
+    text-decoration:none; padding: 11px 20px; border-radius: 14px;
+    font-weight:600; font-size:.9rem; white-space:nowrap;
+    transition: all .25s ease; position:relative;
+  }
+  .tab-link.active{
+    background: linear-gradient(135deg, rgba(59,130,246,.22), rgba(124,58,237,.18));
+    color:#1d4ed8; border:1px solid rgba(59,130,246,.45);
+    backdrop-filter: blur(14px);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 6px 20px rgba(59,130,246,.18);
+  }
+  .tab-link.disabled{
+    background: rgba(255,255,255,.28); color:#94a3b8;
+    border:1px solid rgba(255,255,255,.4); cursor:not-allowed;
+    backdrop-filter: blur(10px);
+  }
+  .tab-link.storage-link{
+    background: rgba(255,255,255,.4); color:#0f172a;
+    border:1px solid rgba(255,255,255,.6); backdrop-filter: blur(10px);
+  }
+  .tab-link.storage-link:hover{ background: rgba(255,255,255,.7); transform: translateY(-1px); }
+
+  h2.section-title{
+    font-size: 1.5rem; color:#0f172a; margin: 0 0 22px; font-weight:800;
+    letter-spacing: -.3px;
+  }
+
+  /* Сетка карточек */
+  .games-grid{ display:flex; flex-direction:column; gap: 22px; }
+
+  .game-card{
+    border-radius: var(--radius); display:flex; flex-direction:row;
+    min-height: 200px; overflow: hidden; transition: transform .3s ease, box-shadow .3s ease;
+  }
+  .game-card:hover{
+    transform: translateY(-4px);
+    box-shadow:
+      0 20px 46px rgba(15,23,42,0.16),
+      inset 0 1px 0 rgba(255,255,255,0.7);
+  }
+  @media (max-width: 640px){
+    .game-card{ flex-direction: column; }
+    .game-image-box{ width:100% !important; height:170px !important; }
+  }
+
+  .game-image-box{
+    width: 34%; flex-shrink:0; overflow:hidden; position:relative;
+    background: linear-gradient(135deg,#e0e7ff,#c7d2fe);
+  }
+  .game-image-box img{
+    width:100%; height:100%; object-fit:cover; display:block;
+    transition: transform .6s ease;
+  }
+  .game-card:hover .game-image-box img{ transform: scale(1.06); }
+  /* Блик на изображении */
+  .game-image-box::after{
+    content:""; position:absolute; inset:0;
+    background: linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.35) 50%, rgba(255,255,255,0) 70%);
+    transform: translateX(-120%); transition: transform .8s ease;
+  }
+  .game-card:hover .game-image-box::after{ transform: translateX(120%); }
+
+  .game-info{
+    padding: 26px 28px; display:flex; flex-direction:column;
+    justify-content:center; flex-grow:1; position:relative; z-index:1;
+  }
+  .game-title{ margin: 0 0 10px; font-size: 1.35rem; font-weight:800; color:#0f172a; }
+  .game-desc{
+    font-size: .93rem; line-height:1.6; color: var(--text-soft);
+    margin: 0 0 14px;
+  }
+  .specs{
+    font-size: .82rem; color: var(--text-mute); margin-bottom: 18px;
+    background: rgba(255,255,255,.35); padding: 10px 14px;
+    border-radius: 12px; border: 1px dashed rgba(100,116,139,.35);
+    backdrop-filter: blur(6px);
+  }
+
+  .download-btn{
+    align-self: flex-start; display:inline-flex; align-items:center; gap:8px;
+    background: linear-gradient(135deg,#2563eb,#1d4ed8);
+    color:#fff; text-decoration:none; font-weight:700; font-size:.88rem;
+    padding: 11px 22px; border-radius: 12px; transition: all .25s ease;
+    box-shadow: 0 8px 22px rgba(37,99,235,.32), inset 0 1px 0 rgba(255,255,255,.3);
+    position:relative; overflow:hidden;
+  }
+  .download-btn::after{
+    content:""; position:absolute; inset:0;
+    background: linear-gradient(120deg, transparent 40%, rgba(255,255,255,.5) 50%, transparent 60%);
+    transform: translateX(-120%); transition: transform .7s ease;
+  }
+  .download-btn:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(37,99,235,.42), inset 0 1px 0 rgba(255,255,255,.3);
+  }
+  .download-btn:hover::after{ transform: translateX(120%); }
+
+  /* Инфоблок */
+  .info-block{
+    border-radius: var(--radius); padding: 28px 30px; margin-top: 34px;
+    position: relative; z-index:1;
+  }
+  .info-block h3{ margin: 0 0 14px; font-size:1.25rem; font-weight:800; color:#0f172a; }
+  .info-block ol{ margin:0; padding-left:20px; color: var(--text-soft); font-size:.94rem; line-height:1.75; }
+  .info-block ol li{ margin-bottom: 6px; }
+
+  /* ===== Секция ELUPON VUNOS ===== */
+  .vunos-section{
+    margin-top: 60px; border-radius: 30px; padding: 40px 40px;
+    overflow: hidden; position:relative;
+    background:
+      linear-gradient(135deg, rgba(37,99,235,0.14), rgba(124,58,237,0.14), rgba(34,211,238,0.10));
+    border: 1px solid rgba(255,255,255,0.5);
+    backdrop-filter: blur(26px) saturate(180%);
+    box-shadow:
+      0 24px 60px rgba(37,99,235,0.18),
+      inset 0 1px 0 rgba(255,255,255,0.7);
+  }
+  .vunos-section::before{
+    content:""; position:absolute; top:-50%; right:-10%;
+    width: 500px; height: 500px; border-radius:50%;
+    background: radial-gradient(circle, rgba(124,58,237,.35), transparent 70%);
+    filter: blur(50px); pointer-events:none;
+  }
+  .vunos-section::after{
+    content:""; position:absolute; bottom:-60%; left:-10%;
+    width: 460px; height: 460px; border-radius:50%;
+    background: radial-gradient(circle, rgba(34,211,238,.30), transparent 70%);
+    filter: blur(50px); pointer-events:none;
+  }
+
+  .vunos-inner{ position:relative; z-index:1; display:flex; gap: 34px; align-items:center; flex-wrap:wrap; }
+  .vunos-text{ flex: 1 1 380px; min-width: 280px; }
+  .vunos-badge{
+    display:inline-block; font-size:.72rem; font-weight:800; letter-spacing:1px;
+    text-transform: uppercase; color:#1d4ed8;
+    background: rgba(59,130,246,.16); border:1px solid rgba(59,130,246,.35);
+    padding: 6px 14px; border-radius: 999px; margin-bottom: 16px;
+    backdrop-filter: blur(8px);
+  }
+  .vunos-text h2{
+    font-size: 2rem; font-weight: 900; margin: 0 0 14px; line-height:1.1;
+    letter-spacing: -.8px;
+    background: linear-gradient(135deg,#0f172a,#1d4ed8 55%,#7c3aed);
+    -webkit-background-clip: text; background-clip:text; -webkit-text-fill-color: transparent;
+  }
+  .vunos-text p{ color: var(--text-soft); font-size:.98rem; line-height:1.7; margin: 0 0 18px; }
+  .vunos-specs{
+    display:flex; flex-wrap:wrap; gap:10px; margin-bottom: 22px;
+  }
+  .vunos-specs span{
+    font-size:.78rem; font-weight:600; color:#334155;
+    background: rgba(255,255,255,.45); border:1px solid rgba(255,255,255,.7);
+    padding: 7px 13px; border-radius: 10px; backdrop-filter: blur(8px);
+  }
+
+  .vunos-visual{
+    flex: 0 0 260px; display:flex; justify-content:center; align-items:center;
+  }
+  .vunos-orb{
+    width: 210px; height: 210px; border-radius: 42% 58% 55% 45% / 50% 45% 55% 50%;
+    background:
+      radial-gradient(circle at 30% 25%, rgba(255,255,255,.9), transparent 45%),
+      linear-gradient(135deg, #3b82f6, #8b5cf6 55%, #22d3ee);
+    box-shadow:
+      0 24px 60px rgba(59,130,246,.45),
+      inset 0 6px 20px rgba(255,255,255,.6),
+      inset 0 -10px 30px rgba(76,29,149,.4);
+    animation: morph 10s ease-in-out infinite, spin 26s linear infinite;
+    position:relative;
+  }
+  .vunos-orb::after{
+    content:"VUNOS"; position:absolute; inset:0; display:flex;
+    align-items:center; justify-content:center;
+    font-weight:900; font-size:1.4rem; letter-spacing:2px;
+    color: rgba(255,255,255,.9); text-shadow: 0 2px 8px rgba(30,41,59,.4);
+  }
+  @keyframes morph{
+    0%,100%{ border-radius: 42% 58% 55% 45% / 50% 45% 55% 50%; }
+    50%{ border-radius: 58% 42% 45% 55% / 45% 55% 45% 55%; }
+  }
+  @keyframes spin{ to{ transform: rotate(360deg); } }
+
+  .vunos-buttons{ display:flex; flex-wrap:wrap; gap:12px; }
+  .vunos-buttons .download-btn{
+    background: linear-gradient(135deg,#7c3aed,#2563eb);
+    box-shadow: 0 10px 26px rgba(124,58,237,.38), inset 0 1px 0 rgba(255,255,255,.3);
+  }
+  .vunos-buttons .download-btn:hover{
+    box-shadow: 0 14px 32px rgba(124,58,237,.5), inset 0 1px 0 rgba(255,255,255,.3);
+  }
+  .vunos-buttons .btn-ghost{
+    background: rgba(255,255,255,.4); color:#1e293b;
+    border:1px solid rgba(255,255,255,.7);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.7);
+    backdrop-filter: blur(10px);
+  }
+  .vunos-buttons .btn-ghost:hover{ background: rgba(255,255,255,.7); }
+
+  /* Футер */
+  footer{
+    text-align:center; padding: 44px 20px; margin-top: 70px;
+    font-size:.85rem; color: var(--text-mute);
+    border-top: 1px solid rgba(255,255,255,.5);
+    background: rgba(255,255,255,.18);
+    backdrop-filter: blur(14px);
+  }
+
+  /* Анимация появления */
+  @keyframes rise{
+    from{ opacity:0; transform: translateY(18px); }
+    to{ opacity:1; transform: translateY(0); }
+  }
+  .animate-in{ animation: rise .7s ease both; }
+  .game-card:nth-child(1){ animation-delay:.05s; }
+  .game-card:nth-child(2){ animation-delay:.12s; }
+  .game-card:nth-child(3){ animation-delay:.19s; }
+  .game-card:nth-child(4){ animation-delay:.26s; }
+
+  @media (max-width: 600px){
+    header{ padding: 40px 26px; }
+    header h1{ font-size: 2.2rem; }
+    .vunos-section{ padding: 30px 22px; }
+    .vunos-text h2{ font-size: 1.6rem; }
+    .vunos-visual{ flex-basis: 100%; order: -1; }
+  }
+</style>
 </head>
 <body>
-    <nav>
-        <div class="brand-logo"><img src="ul.png" alt="ELUPON Логотип"></div>
-        <div class="lang-switch"><a href="index.html" class="lang-btn active">RU</a><a href="en.html" class="lang-btn inactive">EN</a></div>
-    </nav>
-    <header>
-        <div class="header-content">
-            <h1>ELUPON</h1>
-            <p>Официальный независимый цифровой архив. Наша цель — создание и дистрибуция уникальных интерактивных проектов, утилитарных программ и симуляторов для mobile устройств на базе Android, а также адаптация классических игровых механик для современных смартфонов и ПК.</p>
-        </div>
-    </header>
-    <div class="container" id="android">
-        <div class="platform-tabs">
-            <a href="#android" class="tab-link active">🤖 Игры на Android</a>
-            <a href="#" class="tab-link disabled">🌐 HTML (Скоро 🔒)</a>
-            <a href="#" class="tab-link disabled">⚡ Flash (Скоро 🔒)</a>
-            <!-- Вкладка Хранилища для русской версии -->
-            <a href="storage.html" class="tab-link storage-link">🗄️ Проводник хранилища</a>
-        </div>
-        <h2 style="font-size: 1.5rem; color: #0f172a; margin-bottom: 25px; font-weight: 700;">Доступные игры на Android</h2>
-        <div class="games-grid">
-            <div class="game-card">
-                <div class="game-image-box"><img src="win10.jpg" alt="Симулятор Win 10"></div>
-                <div class="game-info">
-                    <h3 class="game-title">Симулятор Win 10</h3>
-                    <p class="game-desc">Полноценная техническая песочница и симулятор операционной системы Windows 10, оптимизированный под управление на Android-смартфонах. Проект позволяет изучать логику и структуру интерфейса настольной ОС, взаимодействовать со знакомыми элементами управления и запускать базовые встроенные приложения прямо на мобильном дисплее.</p>
-                    <div class="specs"><strong>Технические данные:</strong> Формат: .APK | Версия Android: 5.0+ | Разработчик: ELUPON</div>
-                    <a href="Windows10.apk" download class="download-btn">Скачать APK</a>
-                </div>
-            </div>
-            <div class="game-card">
-                <div class="game-info" style="border-left: 4px solid #0284c7; padding-left: 24px;">
-                    <h3 class="game-title" style="color: #0284c7;">💬 Telegram-канал</h3>
-                    <p class="game-desc">Официальное текстовое сообщество конторы ELUPON. Здесь публикуются мгновенные анонсы, технические заметки, кулуарные скриншоты разработки новых утилит и прямая связь с автором проекта Установщик Linux.</p>
-                    <a href="https://t.me/ustanovshiklinux2" class="download-btn" style="background-color: #0284c7;">Присоединиться</a>
-                </div>
-            </div>
-            <div class="game-card">
-                <div class="game-info" style="border-left: 4px solid #d97706; padding-left: 24px;">
-                    <h3 class="game-title" style="color: #d97706;">📱 Официальный YouTube-канал</h3>
-                    <p class="game-desc">Здесь публикуются подробные разборы обновлений, демонстрация игрового процесса разрабатываемых проектов, технические тесты софта и операционных систем. Подписывайтесь на сообщество MagazinWindows, чтобы первыми узнавать о выходе новых билдов и патчей.</p>
-                    <a href="https://youtube.com/@magazinwindows?si=q2L4pRMQs2-UmhbJ" class="download-btn" style="background-color: #d97706;">Перейти к каналу</a>
-                </div>
-            </div>
-            <div class="game-card">
-                <div class="game-info" style="background-color: #f8fafc;">
-                    <h3 class="game-title" style="color: #94a3b8;">Новая игра (В разработке)</h3>
-                    <p class="game-desc">Данный сектор зарезервирован под следующий инди-проект от конторы ELUPON. В данный момент ведётся проектирование архитектуры приложения и проработка программной логики. Страница обновится автоматически по мере готовности стабильного билда.</p>
-                    <a href="#" class="download-btn" style="background-color: #cbd5e1; color: #64748b; pointer-events: none;">Ожидание релиза</a>
-                </div>
-            </div>
-        </div>
-        <div class="info-block">
-            <h3>🛠 Руководство по установке приложений (.APK)</h3>
-            <ol>
-                <li>Загрузите установочный файл нужной игры, нажав на кнопку «Скачать APK».</li>
-                <li>Откройте загруженный файл на вашем Android-смартфоне через любой проводник.</li>
-                <li>Если система заблокирует запуск, перейдите в появившиеся настройки и разрешите пункт «Установка из неизвестных источников» для вашего браузера или проводника.</li>
-                <li>Вернитесь к файлу, нажмите «Установить» и дождитесь завершения процедуры. Все сборки архива ELUPON являются чистыми и полностью безопасными.</li>
-            </ol>
-        </div>
+
+<!-- Жидкий фон -->
+<div class="liquid-bg" aria-hidden="true">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+  <div class="blob b4"></div>
+</div>
+
+<!-- Навигация -->
+<nav class="glass">
+  <div class="brand-logo"><img src="ul.png" alt="ELUPON Логотип"></div>
+  <div class="lang-switch">
+    <a href="index.html" class="lang-btn active">RU</a>
+    <a href="en.html" class="lang-btn inactive">EN</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="glass">
+  <div class="header-content">
+    <h1>ELUPON</h1>
+    <p>Официальный независимый цифровой архив. Наша цель — создание и дистрибуция уникальных интерактивных проектов, утилитарных программ и симуляторов для mobile устройств на базе Android, а также адаптация классических игровых механик для современных смартфонов и ПК.</p>
+  </div>
+</header>
+
+<!-- Основной контент -->
+<div class="container" id="android">
+
+  <div class="platform-tabs">
+    <a href="#android" class="tab-link active">🤖 Игры на Android</a>
+    <a href="#" class="tab-link disabled">🌐 HTML (Скоро 🔒)</a>
+    <a href="#" class="tab-link disabled">⚡ Flash (Скоро 🔒)</a>
+    <a href="storage.html" class="tab-link storage-link">🗄️ Проводник хранилища</a>
+  </div>
+
+  <h2 class="section-title">Доступные игры на Android</h2>
+
+  <div class="games-grid">
+
+    <div class="game-card glass animate-in">
+      <div class="game-image-box"><img src="win10.jpg" alt="Симулятор Win 10"></div>
+      <div class="game-info">
+        <h3 class="game-title">Симулятор Win 10</h3>
+        <p class="game-desc">Полноценная техническая песочница и симулятор операционной системы Windows 10, оптимизированный под управление на Android-смартфонах. Проект позволяет изучать логику и структуру интерфейса настольной ОС, взаимодействовать со знакомыми элементами управления и запускать базовые встроенные приложения прямо на мобильном дисплее.</p>
+        <div class="specs"><strong>Технические данные:</strong> Формат: .APK | Версия Android: 5.0+ | Разработчик: ELUPON</div>
+        <a href="Windows10.apk" download class="download-btn">⬇ Скачать APK</a>
+      </div>
     </div>
-    <footer>
-        <p>&copy; 2022-2026 ELUPON. Бесплатный игровой архив от MagazinWindows a.k.a Установщик Linux. Все права защищены.</p>
-    </footer>
+
+    <div class="game-card glass animate-in">
+      <div class="game-info">
+        <h3 class="game-title" style="color:#0284c7;">💬 Telegram-канал</h3>
+        <p class="game-desc">Официальное текстовое сообщество конторы ELUPON. Здесь публикуются мгновенные анонсы, технические заметки, кулуарные скриншоты разработки новых утилит и прямая связь с автором проекта Установщик Linux.</p>
+        <a href="https://t.me/ustanovshiklinux2" class="download-btn" style="background:linear-gradient(135deg,#0ea5e9,#0284c7);">Присоединиться</a>
+      </div>
+    </div>
+
+    <div class="game-card glass animate-in">
+      <div class="game-info">
+        <h3 class="game-title" style="color:#d97706;">📱 Официальный YouTube-канал</h3>
+        <p class="game-desc">Здесь публикуются подробные разборы обновлений, демонстрация игрового процесса разрабатываемых проектов, технические тесты софта и операционных систем. Подписывайтесь на сообщество MagazinWindows, чтобы первыми узнавать о выходе новых билдов и патчей.</p>
+        <a href="https://youtube.com/@magazinwindows?si=q2L4pRMQs2-UmhbJ" class="download-btn" style="background:linear-gradient(135deg,#f59e0b,#d97706);">Перейти к каналу</a>
+      </div>
+    </div>
+
+    <div class="game-card glass animate-in">
+      <div class="game-info">
+        <h3 class="game-title" style="color:#94a3b8;">Новая игра (В разработке)</h3>
+        <p class="game-desc">Данный сектор зарезервирован под следующий инди-проект от конторы ELUPON. В данный момент ведётся проектирование архитектуры приложения и проработка программной логики. Страница обновится автоматически по мере готовности стабильного билда.</p>
+        <a href="#" class="download-btn" style="background:linear-gradient(135deg,#cbd5e1,#94a3b8);color:#fff;pointer-events:none;">Ожидание релиза</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== ELUPON VUNOS ===== -->
+  <section class="vunos-section" id="vunos">
+    <div class="vunos-inner">
+      <div class="vunos-text">
+        <span class="vunos-badge">🆕 Флагманский релиз</span>
+        <h2>ELUPON VUNOS</h2>
+        <p>Собственная операционная система от конторы ELUPON. Лёгкая, быстрая и минималистичная ОС, созданная для энтузиастов, разработчиков и всех, кто хочет прикоснуться к экспериментальной среде. Полностью готова к загрузке с официального релиза.</p>
+        <div class="vunos-specs">
+          <span>📦 Формат: .zip</span>
+          <span>⚡ Лёгкий дистрибутив</span>
+          <span>🧩 Открытая архитектура</span>
+          <span>🔧 Разработчик: ELUPON</span>
+        </div>
+        <div class="vunos-buttons">
+          <!-- Прямая ссылка на скачивание ZIP-файла -->
+          <a href="https://github.com/Elupon/elupon-game.github.io/releases/download/release/ELUPON.VUNOS.1.0.zip" class="download-btn" target="_blank" rel="noopener">⬇ Скачать VUNOS (.zip)</a>
+          
+          <a href="https://t.me/ustanovshiklinux2" class="download-btn btn-ghost" target="_blank" rel="noopener">📢 Новости о VUNOS</a>
+        </div>
+      </div>
+      <div class="vunos-visual">
+        <div class="vunos-orb" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Руководство -->
+  <div class="info-block glass">
+    <h3>🛠 Руководство по установке приложений (.APK)</h3>
+    <ol>
+      <li>Загрузите установочный файл нужной игры, нажав на кнопку «Скачать APK».</li>
+      <li>Откройте загруженный файл на вашем Android-смартфоне через любой проводник.</li>
+      <li>Если система заблокирует запуск, перейдите в появившиеся настройки и разрешите пункт «Установка из неизвестных источников» для вашего браузера или проводника.</li>
+      <li>Вернитесь к файлу, нажмите «Установить» и дождитесь завершения процедуры. Все сборки архива ELUPON являются чистыми и полностью безопасными.</li>
+    </ol>
+  </div>
+
+</div>
+
+<footer>
+  <p>&copy; 2022–2026 ELUPON. Бесплатный игровой архив от MagazinWindows a.k.a Установщик Linux. Все права защищены.</p>
+</footer>
+
 </body>
 </html>
